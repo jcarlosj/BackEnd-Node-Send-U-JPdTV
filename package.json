@@ -1,10 +1,11 @@
 {
   "name": "node-send",
   "version": "1.0.0",
-  "description": "NodeSend Project",
+  "description": "NodeSend Project...",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./index.js",
+    "dev": "nodemon ./index.js"
   },
   "author": "Juan Carlos Jiménez Gutiérrez <jcjimenez29@misena.edu.co>",
   "license": "ISC",
