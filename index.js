@@ -7,6 +7,9 @@ const
 ConnectDB();
 console .log( `Starting NodeSend` );
 
+// Routes
+app .use( '/api/users', require( './routes/users' ) );
+
 // Launch Server
 app .listen( port, '0.0.0.0', () => {
     console .log( `Server running on the port ${ port }` );
