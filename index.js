@@ -4,6 +4,9 @@ const
     app = express(),
     port = process .env .PORT || 4000; 
 
+/** Middlewares */
+app .use( express .json() );    //  Enable JSON to send and receive data through the request body
+
 ConnectDB();
 console .log( `Starting NodeSend` );
 
