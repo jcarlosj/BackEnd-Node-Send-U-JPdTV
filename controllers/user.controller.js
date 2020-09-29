@@ -1,10 +1,13 @@
-const { request } = require( 'express' );
-
-const User = require( '../models/User' );
+const 
+    { request } = require( 'express' ),
+    User = require( '../models/User' ),
+    bcrypt = require( 'bcrypt' );
 
 exports .new = async ( request, response ) => {
     
-    const { email } = request .body;
+    const 
+        { email, password } = request .body,
+        salt = await bcrypt .genSalt( 10 );
 
     let user = await User .findOne({ email });  //  User query by email in the Database
     
@@ -14,11 +17,19 @@ exports .new = async ( request, response ) => {
         });
     }
 
-    user = await new User( request .body );
-    user .save();                               //  Insert a new user to the Database
+    user = new User( request .body );
+    user .password = await bcrypt .hash( password, salt );      //  Convert password to hash
 
-    response .json({
-        msg: 'User created successfully!'
-    });
+    try {
+        user .save();                            //  Insert a new user to the Database
+
+        response .json({
+            msg: 'User created successfully!'
+        });
+    }
+    catch( error ) {
+        console .error( error );
+    }
+    
 
 }
