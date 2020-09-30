@@ -1,9 +1,18 @@
 const 
     { request } = require( 'express' ),
     User = require( '../models/User' ),
-    bcrypt = require( 'bcrypt' );
+    bcrypt = require( 'bcrypt' ),
+    { validationResult } = require( 'express-validator' );
 
 exports .new = async ( request, response ) => {
+
+    const errors = validationResult( request );
+    
+    if( ! errors .isEmpty() ) {         //  Check for field validation error messages
+        return response .status( 400 ) .json({
+            errors: errors .array()
+        });
+    }
     
     const 
         { email, password } = request .body,
