@@ -1,4 +1,6 @@
-const User = require( '../models/User' );
+const 
+    User = require( '../models/User' ),
+    bcrypt = require( 'bcrypt' );
 
 exports .authenticateUser = async ( request, response, next ) => {
     console. log( `authenticateUser` );
@@ -7,7 +9,7 @@ exports .authenticateUser = async ( request, response, next ) => {
 
     /** Search for a user and check if he is registered */
     const 
-        { email } = request .body,
+        { email, password } = request .body,
         user = await User .findOne({ email });      //  User query by email in the Database
 
         if( ! user ) {                                //  Check if the user is not registered
@@ -18,7 +20,15 @@ exports .authenticateUser = async ( request, response, next ) => {
         }
 
     /** Verify the password and authenticate the user */
-    console .log( 'User exists' );
+    if( bcrypt .compareSync( password, user .password ) ) {
+        console .log( 'OK, Create JWT' );
+    }
+    else {
+        response .status( 401 ) .json({
+            msg: 'Password is incorrect'
+        });
+        return next();
+    }
 
     response .status( 200 ) .json({
         msg: 'authenticateUser'
