@@ -2,9 +2,14 @@ const
     express = require( 'express' ),
     router = express .Router(),
     authController = require( '../controllers/auth.controller' ),
-    { check } = require( 'express-validator' );
+    { check } = require( 'express-validator' ),
+    auth = require( '../middlewares/auth' );
 
-router .get( '/', authController .authenticatedUser );
+router .get( 
+    '/', 
+    auth,   // Authentication middleware 
+    authController .authenticatedUser 
+);
 
 router .post(     
     '/', 
