@@ -12,6 +12,7 @@ console .log( `Starting NodeSend` );
 
 // Routes
 app .use( '/api/users', require( './routes/users' ) );
+app .use( '/api/auth', require( './routes/auth' ) );
 
 // Launch Server
 app .listen( port, '0.0.0.0', () => {
