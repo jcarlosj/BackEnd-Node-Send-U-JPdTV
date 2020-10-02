@@ -6,6 +6,13 @@ const
 
 router .get( '/', authController .authenticatedUser );
 
-router .post( '/', authController .authenticateUser );
+router .post(     
+    '/', 
+    [
+        check( 'email', 'Add a valid email' ) .isEmail(),
+        check( 'password', 'The password is required' ) .not() .isEmpty()
+    ], 
+    authController .authenticateUser  
+);
 
 module .exports = router;

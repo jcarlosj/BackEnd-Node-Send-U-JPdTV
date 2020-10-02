@@ -1,7 +1,8 @@
 const 
     User = require( '../models/User' ),
     bcrypt = require( 'bcrypt' ),
-    jwt = require( 'jsonwebtoken' );
+    jwt = require( 'jsonwebtoken' ),
+    { validationResult } = require( 'express-validator' );
 
 require( 'dotenv' ) .config({
     path: './variables.env'
@@ -11,6 +12,13 @@ exports .authenticateUser = async ( request, response, next ) => {
     console. log( `authenticateUser` );
 
     /** Check for errors */
+    const errors = validationResult( request );
+    
+    if( ! errors .isEmpty() ) {         //  Check for field validation error messages
+        return response .status( 400 ) .json({
+            errors: errors .array()
+        });
+    }
 
     /** Search for a user and check if he is registered */
     const 
@@ -45,9 +53,6 @@ exports .authenticateUser = async ( request, response, next ) => {
         return next();
     }
 
-    response .status( 200 ) .json({
-        msg: 'authenticateUser'
-    });
 }
 
 exports .authenticatedUser = async ( request, response ) => {
