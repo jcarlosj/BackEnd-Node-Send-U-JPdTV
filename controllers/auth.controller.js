@@ -55,9 +55,30 @@ exports .authenticateUser = async ( request, response, next ) => {
 
 }
 
-exports .authenticatedUser = async ( request, response ) => {
-    console. log( `authenticatedUser` );
-    response .json({
-        msg: 'authenticatedUser'
-    });
+exports .authenticatedUser = async ( request, response, next ) => {
+    const authHeader = request .get( 'Authorization' );   // Get Token
+    
+    if( authHeader ) {      //  Verify that the authorization header exists to extract the data
+
+        try {
+            const 
+                token = authHeader .split( ' ' )[ 1 ],
+                user = jwt .verify( token, process .env .SECRET );
+            
+            // console .log( user );            
+            response .status( 200 ) .json({
+                user
+            });
+        } 
+        catch( error ) {
+            console .error( error );
+
+            response .status( 400 ) .json({
+                msg: 'Invalid JSON Web Token'
+            });
+        }
+
+    }
+    
+    return next();
 }
