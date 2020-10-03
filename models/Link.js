@@ -17,7 +17,8 @@ const
             trim: true
         },
         downloads: {
-            type: Number
+            type: Number,
+            default: 1
         },
         author: {
             type: mongoose .Schema .Types .ObjectId,
@@ -27,7 +28,8 @@ const
         password: {
             type: String,
             required: false,
-            trim: true
+            trim: true,
+            default: null
         },
         created: {
             type: Date,
@@ -35,4 +37,4 @@ const
         }
     });
 
-linkle .exports = mongoose .model( 'Links', userSchema );
+module .exports = mongoose .model( 'Links', linkSchema );
