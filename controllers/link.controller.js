@@ -1,11 +1,19 @@
 const  
     Link = require( '../models/Link' ),
     bcrypt = require( 'bcrypt' ),
-    shortid = require( 'shortid' );
+    shortid = require( 'shortid' ),
+    { validationResult } = require( 'express-validator' );
 
 exports .new = async ( request, response, next ) => {
 
     /** Check for errors */
+    const errors = validationResult( request );
+    
+    if( ! errors .isEmpty() ) {         //  Check for field validation error messages
+        return response .status( 400 ) .json({
+            errors: errors .array()
+        });
+    }
 
     const 
         { original_name } = request .body,

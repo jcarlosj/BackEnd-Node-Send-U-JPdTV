@@ -6,9 +6,13 @@ const
     auth = require( '../middlewares/auth' );
 
 router .post( 
-    '/', 
+    '/',        //  Route
+    [           //  Define verification for each field
+        check( 'name', 'Upload a file' ) .not() .isEmpty(),
+        check( 'original_name', 'Upload a file' ) .not() .isEmpty()
+    ],
     auth,       // Authentication middleware 
-    linkController .new 
+    linkController .new     // Run controller
 );
 
 module .exports = router;
