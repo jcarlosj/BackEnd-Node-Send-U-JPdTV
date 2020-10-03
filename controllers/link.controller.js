@@ -1,5 +1,6 @@
 const  
     Link = require( '../models/Link' ),
+    bcrypt = require( 'bcrypt' ),
     shortid = require( 'shortid' );
 
 exports .new = async ( request, response, next ) => {
@@ -7,16 +8,31 @@ exports .new = async ( request, response, next ) => {
     /** Check for errors */
 
     const 
-        { original_name, password } = request .body,
+        { original_name } = request .body,
         link = new Link();
     
     /** Create object with link data */
     link .url = shortid .generate();
     link .name = shortid .generate();
     link .original_name = original_name;
-    link .password = password;
 
     /** Check if the user is authenticated */
+    if( request .user ) {
+        const 
+            { password, downloads } = request .body,
+            user = request .user;
+
+        if( downloads ) {            //  If the value has been passed, assign number of downloads
+            link .downloads = downloads;
+        }
+        if( password ) {            //  If the value has been passed, assign password
+            const salt = await bcrypt .genSalt( 10 );
+            link .password = await bcrypt .hash( password, salt );
+        }
+        
+        link .author = user .id;    //  Assign author
+
+    }
 
     try {
         /** Store link in Database */
