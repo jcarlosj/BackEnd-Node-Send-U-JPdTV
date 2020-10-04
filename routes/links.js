@@ -5,6 +5,8 @@ const
     { check } = require( 'express-validator' ),
     auth = require( '../middlewares/auth' );
 
+router .get( '/:url', linkController .getLink );
+
 router .post( 
     '/',        //  Route
     [           //  Define verification for each field

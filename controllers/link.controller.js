@@ -57,3 +57,24 @@ exports .new = async ( request, response, next ) => {
     }
     
 }
+
+exports .getLink = async ( request, response, next ) => {
+    const link = await Link .findOne({ url: request .params .url });    //  Check if the link is registered in the database
+
+    // console .log( 'Link', link );
+
+    if( ! link ) {      //  Verify that the link exists
+        response .status( 404 ) .json({
+            msg: 'Link does not exist'
+        });
+        return next();
+    }
+
+    response .status( 404 ) .json({
+        link
+    });
+
+    /** TO DO: Check if download is the last one allowed i.e. downloads = 1, delete the file. */
+    /** TO DO: Verify that downloads are still allowed, subtract one from the number of downloads allowed */
+    
+}
