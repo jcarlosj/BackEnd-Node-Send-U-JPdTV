@@ -1,5 +1,5 @@
 exports .upload = async ( request, response ) => {
-    console. log( `upload fileController` );
+    console. log( `upload fileController`, request .file );
 }
 
 exports .delete = async ( request, response ) => {
