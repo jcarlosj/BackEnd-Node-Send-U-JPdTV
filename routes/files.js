@@ -6,6 +6,7 @@ const
 
 router .post( 
     '/', 
+    auth,
     fileController .upload 
 );
 
