@@ -2,7 +2,8 @@ const { request } = require('express');
 
 const
     shortid = require( 'shortid' ),
-    multer = require( 'multer' );
+    multer = require( 'multer' ),
+    fs = require( 'fs' );
 
 exports .upload = async ( request, response, next ) => {
     
@@ -53,5 +54,13 @@ exports .upload = async ( request, response, next ) => {
 }
 
 exports .delete = async ( request, response ) => {
-    console. log( `delete fileController` );
+    console. log( `delete fileController`, request .file );
+
+    try {
+        fs .unlinkSync( __dirname + `/../uploads/${ request .file }` );       //  Delete the file
+        console .log( 'File Deleted!' );
+    } 
+    catch( error ) {
+        console .log( 'delete', error );
+    }
 }

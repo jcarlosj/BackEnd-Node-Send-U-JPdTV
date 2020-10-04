@@ -11,5 +11,4 @@ router .post(
 );
 
 router .delete( '/:id', fileController .delete );
-
 module .exports = router;
