@@ -2,12 +2,15 @@ const
     express = require( 'express' ),
     ConnectDB = require( './config/db' ),
     cors = require( 'cors' ),
+    corsOptions = {
+        origin: process .env .FRONTEND_URL
+    },
     app = express(),
     port = process .env .PORT || 4000; 
 
 /** Middlewares */
 app .use( express .json() );    //  Enable JSON to send and receive data through the request body
-app .use( cors() );             //  Enable CORS
+app .use( cors( corsOptions ) );             //  Enable CORS
 
 ConnectDB();
 console .log( `Starting NodeSend` );
