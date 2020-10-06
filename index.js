@@ -1,11 +1,13 @@
 const 
     express = require( 'express' ),
     ConnectDB = require( './config/db' ),
+    cors = require( 'cors' ),
     app = express(),
     port = process .env .PORT || 4000; 
 
 /** Middlewares */
 app .use( express .json() );    //  Enable JSON to send and receive data through the request body
+app .use( cors() );             //  Enable CORS
 
 ConnectDB();
 console .log( `Starting NodeSend` );
