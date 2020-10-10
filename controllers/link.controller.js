@@ -16,12 +16,12 @@ exports .new = async ( request, response, next ) => {
     }
 
     const 
-        { original_name } = request .body,
+        { original_name, name } = request .body,
         link = new Link();
     
     /** Create object with link data */
     link .url = shortid .generate();
-    link .name = shortid .generate();
+    link .name = name;
     link .original_name = original_name;
 
     /** Check if the user is authenticated */
@@ -47,7 +47,7 @@ exports .new = async ( request, response, next ) => {
         await link .save();
 
         return response .json({
-            msg: link .url
+            url: link .url
         });
 
         next();
