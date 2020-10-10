@@ -12,6 +12,11 @@ router .get(
     fileController .delete
 );
 
+router .get(
+    '/', 
+    linkController .getAllLinks
+);
+
 router .post( 
     '/',        //  Route
     [           //  Define verification for each field

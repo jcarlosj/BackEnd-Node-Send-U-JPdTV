@@ -90,3 +90,14 @@ exports .getLink = async ( request, response, next ) => {
     
     
 }
+
+exports .getAllLinks = async ( request, response ) => {
+    try {
+        const links = await Link .find({}) .select( 'url -_id' );
+        
+        response .json({ links });
+    } 
+    catch( error ) {
+        console .error( error );
+    }
+}
