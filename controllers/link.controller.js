@@ -70,9 +70,11 @@ exports .getLink = async ( request, response, next ) => {
         return next();
     }
 
-    response .status( 404 ) .json({
+    response .status( 200 ) .json({
         link
     });
+
+    return;
 
     const { downloads, name } = link;
 
