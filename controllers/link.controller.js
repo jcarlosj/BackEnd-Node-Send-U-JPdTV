@@ -74,7 +74,7 @@ exports .getLink = async ( request, response, next ) => {
         link
     });
 
-    return;
+    return;      //  TEMPORAL: Testing
 
     const { downloads, name } = link;
 
