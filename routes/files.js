@@ -10,5 +10,10 @@ router .post(
     fileController .upload 
 );
 
+router .get(
+    '/:file',
+    fileController .download
+);
+
 router .delete( '/:id', fileController .delete );
 module .exports = router;

@@ -64,3 +64,10 @@ exports .delete = async ( request, response ) => {
         console .log( 'delete', error );
     }
 }
+
+exports .download = ( request, response ) => {
+    const file = __dirname + '/../uploads/' + request .params .file;
+    console .log( 'Downloading ...' );
+
+    response .download( file );     //  Transfiere el archivo en la ruta como un "archivo adjunto". Agregando el Content-Disposition a la cabecera
+}
