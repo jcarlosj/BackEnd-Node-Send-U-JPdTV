@@ -10,6 +10,7 @@ const
 
 /** Middlewares */
 app .use( express .json() );    //  Enable JSON to send and receive data through the request body
+app .use( express .static( 'uploads' ) );    //  Enable public directory of static files
 app .use( cors( corsOptions ) );             //  Enable CORS
 
 ConnectDB();
