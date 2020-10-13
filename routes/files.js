@@ -12,7 +12,8 @@ router .post(
 
 router .get(
     '/:file',
-    fileController .download
+    fileController .download,
+    fileController .delete
 );
 
 router .delete( '/:id', fileController .delete );

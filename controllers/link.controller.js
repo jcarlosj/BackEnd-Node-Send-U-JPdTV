@@ -74,23 +74,7 @@ exports .getLink = async ( request, response, next ) => {
         link
     });
 
-    return;      //  TEMPORAL: Testing
-
-    const { downloads, name } = link;
-
-    if( downloads === 1 ) {       //  Check if download is the last one allowed i.e. downloads = 1, delete the file.
-        request .file = name;     //  Assign file name to request
-
-        await Link .findOneAndRemove( request .params .url ); //  Delete the link record in the database
-
-        next(); //  Exits the Current Controller and goes to the next action listed in the Router, in our case it executes the File Controller
-    }
-    else {      //  Verify that downloads are still allowed, subtract one from the number of downloads allowed
-        link .downloads --; 
-        await link .save();
-    }
-    
-    
+    next();     //  Next Middleware
 }
 
 exports .getAllLinks = async ( request, response ) => {

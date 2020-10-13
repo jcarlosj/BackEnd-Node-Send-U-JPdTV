@@ -2,14 +2,12 @@ const
     express = require( 'express' ),
     router = express .Router(),
     linkController = require( '../controllers/link.controller' ),
-    fileController = require( '../controllers/file.controller' ),
     { check } = require( 'express-validator' ),
     auth = require( '../middlewares/auth' );
 
 router .get( 
     '/:url', 
-    linkController .getLink,
-    fileController .delete
+    linkController .getLink
 );
 
 router .get(

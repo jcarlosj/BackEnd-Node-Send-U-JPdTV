@@ -3,7 +3,8 @@ const { request } = require('express');
 const
     shortid = require( 'shortid' ),
     multer = require( 'multer' ),
-    fs = require( 'fs' );
+    fs = require( 'fs' ),
+    Link = require( '../models/Link' );
 
 exports .upload = async ( request, response, next ) => {
     
@@ -65,9 +66,28 @@ exports .delete = async ( request, response ) => {
     }
 }
 
-exports .download = ( request, response ) => {
-    const file = __dirname + '/../uploads/' + request .params .file;
-    console .log( 'Downloading ...' );
+exports .download = async ( request, response, next ) => {
 
-    response .download( file );     //  Transfiere el archivo en la ruta como un "archivo adjunto". Agregando el Content-Disposition a la cabecera
+    /**  */
+    const 
+        { file, } = request .params;                    //  Destructuring of parameters
+        link = await Link .findOne({ name: file }),     //  Query to get download link
+        { downloads, name } = link,                     //  Response Destructuring
+        filePath = __dirname + '/../uploads/' + file;   //  File Path  
+    
+    console .log( 'Downloading ...' );
+    response .download( filePath );                     //  Transfiere el archivo en la ruta como un "archivo adjunto". Agregando el Content-Disposition a la cabecera
+
+    if( downloads === 1 ) {       //  Check if download is the last one allowed i.e. downloads = 1, delete the file.
+        request .file = name;     //  Assign file name to request
+
+        await Link .findOneAndRemove( link .id ); //  Delete the link record in the database
+
+        next(); //  Exits the Current Controller and goes to the next action listed in the Router, in our case it executes the File Controller
+    }
+    else {      //  Verify that downloads are still allowed, subtract one from the number of downloads allowed
+        link .downloads --; 
+        await link .save();
+    }
+    
 }
