@@ -7,6 +7,7 @@ const
 
 router .get( 
     '/:url', 
+    linkController .hasPassword,
     linkController .getLink
 );
 

@@ -1,3 +1,4 @@
+const { response } = require('express');
 const  
     Link = require( '../models/Link' ),
     bcrypt = require( 'bcrypt' ),
@@ -71,7 +72,7 @@ exports .getLink = async ( request, response, next ) => {
     }
 
     response .status( 200 ) .json({
-        link
+        name: link .name            //  Refleja datos (link es la propiedad definida para el prop) del componente dinámico
     });
 
     next();     //  Next Middleware
@@ -86,4 +87,29 @@ exports .getAllLinks = async ( request, response ) => {
     catch( error ) {
         console .error( error );
     }
+}
+
+exports .hasPassword = async ( request, response, next ) => {
+
+    const link = await Link .findOne({ url: request .params .url });    //  Check if the link is registered in the database
+
+    console .log( 'hasPass', link );
+
+    if( ! link ) {              //  Verify that the link exists
+        response .status( 404 ) .json({
+            msg: 'Link does not exist'
+        });
+        return next();
+    }
+
+    if( link .password ) {      //  Verify that the password exists
+        return response .json({
+            hasPassword: true,
+            url: link .url          //  Refleja datos (link es la propiedad definida para el prop) del componente dinámico
+        });
+    }
+
+    
+    next();     //  Next Middleware
+
 }
