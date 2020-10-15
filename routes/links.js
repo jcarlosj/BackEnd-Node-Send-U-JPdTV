@@ -26,4 +26,10 @@ router .post(
     linkController .new     // Run controller
 );
 
+router .post(
+    '/:url',
+    linkController .verifyPassword,
+    linkController .getLink
+);
+
 module .exports = router;

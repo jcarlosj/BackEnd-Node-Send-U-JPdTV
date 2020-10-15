@@ -72,7 +72,8 @@ exports .getLink = async ( request, response, next ) => {
     }
 
     response .status( 200 ) .json({
-        name: link .name            //  Refleja datos (link es la propiedad definida para el prop) del componente dinámico
+        name: link .name,            //  Refleja datos (link es la propiedad definida para el prop) del componente dinámico
+        hasPassword: false
     });
 
     next();     //  Next Middleware
@@ -112,4 +113,29 @@ exports .hasPassword = async ( request, response, next ) => {
     
     next();     //  Next Middleware
 
+}
+
+exports .verifyPassword = async ( request, response, next ) => {
+
+    // console .group( 'verifyPassword' );
+    // console .info( 'body', request .body );
+    // console .info( 'params', request .params );
+    // console .groupEnd();
+
+    const
+        { password } = request .body, 
+        { url } = request .params
+        link = await Link .findOne({ url });
+
+    if( bcrypt .compareSync( password , link .password ) ) {
+        next();     //  Next Middleware
+    }
+    else {
+        return response .status( 401 ) .json({
+            msg: 'Incorrect password'
+        });
+    }
+
+
+    
 }
